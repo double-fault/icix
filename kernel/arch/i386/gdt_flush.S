@@ -1,0 +1,20 @@
+.section .text
+.global _gdt_flush
+.type _gdt_flush, @function
+
+_gdt_flush:
+	cli
+	mov 4(%esp), %eax
+	lgdt (%eax)
+
+	mov $0x10, %ax
+	mov %ax, %es
+	mov %ax, %ds
+	mov %ax, %fs
+	mov %ax, %gs
+	mov %ax, %ss
+
+	jmp $0x08,$.jmp_flush
+.jmp_flush:
+	ret
+
