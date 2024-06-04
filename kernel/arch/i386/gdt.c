@@ -12,7 +12,7 @@ gdt_ptr_t gdt_ptr;
 
 void init_gdt() {
 	gdt_ptr.limit = sizeof(gdt_entries) - 1;
-	gdt_ptr.base = (uint32_t)&gdt_entries;
+	gdt_ptr.base = (uint32_t)gdt_entries;
 
 	_gdt_set_gate(0, 0, 0, 0, 0);                // Null segment
         _gdt_set_gate(1, 0, 0xFFFF, 0x9A, 0xCF); // Code segment
