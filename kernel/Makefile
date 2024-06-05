@@ -40,6 +40,8 @@ $(ARCHDIR)/crtend.o \
 $(ARCHDIR)/crtn.o \
 $(ARCHDIR)/gdt.o \
 $(ARCHDIR)/gdt_flush.o \
+$(ARCHDIR)/isr.o \
+$(ARCHDIR)/idt.o \
 
 LINK_LIST=\
 $(LDFLAGS) \
@@ -51,6 +53,8 @@ $(ARCHDIR)/crtend.o \
 $(ARCHDIR)/crtn.o \
 $(ARCHDIR)/gdt.o \
 $(ARCHDIR)/gdt_flush.o \
+$(ARCHDIR)/isr.o \
+$(ARCHDIR)/idt.o \
 
 .PHONY: all clean install install-headers install-kernel
 .SUFFIXES: .o .c .S

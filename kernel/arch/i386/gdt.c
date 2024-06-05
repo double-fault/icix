@@ -7,8 +7,8 @@ extern void _gdt_flush(uint32_t);
 
 void _gdt_set_gate(int32_t, uint32_t, uint32_t, uint8_t, uint8_t);
 
-gdt_entry_t gdt_entries[NUM_GDT_ENTRIES];
-gdt_ptr_t gdt_ptr;
+static gdt_entry_t gdt_entries[NUM_GDT_ENTRIES];
+static gdt_ptr_t gdt_ptr;
 
 void init_gdt() {
 	gdt_ptr.limit = sizeof(gdt_entries) - 1;
