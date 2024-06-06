@@ -1,5 +1,5 @@
 #include <kernel/pic.h>
-#include <kernel/idt.h>
+#include <kernel/isr.h>
 #include <kernel/utilities.h>
 
 #include <stddef.h>
