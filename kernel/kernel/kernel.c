@@ -5,6 +5,7 @@
 #include <kernel/isr.h>
 #include <kernel/pic.h>
 #include <kernel/utilities.h>
+#include <kernel/vmm.h>
 
 extern int test_f();
 
@@ -14,7 +15,7 @@ void timer_callback(cpu_state_t regs)
 {
    PIC_sendEOI(regs.int_no - 32);
    tick++;
-   printf("Tick: %c\n", tick + '0');
+   //printf("Tick: %c\n", tick + '0');
 }
 
 void init_timer(uint32_t frequency)
@@ -46,12 +47,16 @@ void kernel_main(void) {
 	terminal_initialize();
 	init_gdt();
 	init_idt();
+	init_paging();
 	PIC_remap(0x20, 0x28);
 	PIC_disable();
 	init_timer(50);
 	IRQ_clear_mask(0);
 	printf("Hello, kernel World! %c\n", test_f());
 	printf("Interrupts status: %c\n", are_interrupts_enabled() + '0');
+
+	uint32_t *ptr = (uint32_t*)0xA0000000; 
+	uint32_t tmp = *ptr;
 
 	 for(;;) {
     		asm("hlt");
