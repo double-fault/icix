@@ -9,6 +9,9 @@
 
 extern uint32_t free_addr;
 
+extern void load_page_dir(uint32_t* addr);
+extern void enable_paging(void);
+
 page_dir_t *kernel_dir = NULL;
 page_dir_t *cur_dir = NULL;
 
@@ -99,18 +102,16 @@ void init_paging() {
 		pfa_alloc(get_page(i, 1, kernel_dir), 0, 0);
 	}
 
-	register_int_handler(14, &page_fault);
+	//register_int_handler(14, &page_fault);
 	
 	switch_page_dir(kernel_dir);
+	enable_paging();
+	printf("Paging enabled!");
+	printf("Page: %d\n", get_page(0xA0000000, 0, kernel_dir));
 }
 
 void switch_page_dir(page_dir_t *dir) {
-	cur_dir = dir;
-    	asm volatile("mov %0, %%cr3":: "r"(&dir->phys_tables));
-    	uint32_t cr0;
-    	asm volatile("mov %%cr0, %0": "=r"(cr0));
-    	cr0 |= 0x80000000; 
-    	asm volatile("mov %0, %%cr0":: "r"(cr0));
+	load_page_dir(dir->phys_tables);
 }
 
 page_t *get_page(uint32_t addr, uint32_t make, page_dir_t *dir) {

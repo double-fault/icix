@@ -52,8 +52,8 @@ void kernel_main(void) {
 	PIC_disable();
 	init_timer(50);
 	IRQ_clear_mask(0);
-	printf("Hello, kernel World! %c\n", test_f());
-	printf("Interrupts status: %c\n", are_interrupts_enabled() + '0');
+	printf("Hello, kernel World! %d\n", test_f());
+	printf("Interrupts status: %d\n", are_interrupts_enabled());
 
 	uint32_t *ptr = (uint32_t*)0xA0000000; 
 	uint32_t tmp = *ptr;
