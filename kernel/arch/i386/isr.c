@@ -48,7 +48,7 @@ void interrupt_handler(cpu_state_t state) {
 		return;
 	}
 
-	printf("Exception occurred with no. %c\n", state.int_no + '0');
+	printf("Exception occurred with no. %d\n", state.int_no);
        	__asm__ volatile ("cli; hlt"); // Completely hangs the computer
 }
 

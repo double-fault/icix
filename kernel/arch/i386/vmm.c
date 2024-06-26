@@ -102,12 +102,12 @@ void init_paging() {
 		pfa_alloc(get_page(i, 1, kernel_dir), 0, 0);
 	}
 
-	//register_int_handler(14, &page_fault);
+	register_int_handler(14, &page_fault);
 	
 	switch_page_dir(kernel_dir);
 	enable_paging();
-	printf("Paging enabled!");
-	printf("Page: %d\n", get_page(0xA0000000, 0, kernel_dir));
+//	printf("Paging enabled!");
+//	printf("Page: %d\n", get_page(0xA0000000, 0, kernel_dir));
 }
 
 void switch_page_dir(page_dir_t *dir) {

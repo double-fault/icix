@@ -57,6 +57,7 @@ void kernel_main(void) {
 
 	uint32_t *ptr = (uint32_t*)0xA0000000; 
 	uint32_t tmp = *ptr;
+	printf("value: %d\n", tmp);
 
 	 for(;;) {
     		asm("hlt");
