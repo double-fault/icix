@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <assert.h>
 
 #include <kernel/tty.h>
 #include <kernel/gdt.h>
@@ -63,10 +64,15 @@ void kernel_main(multiboot_header_t *mboot_header) {
 	printf("Hello, world! %d\n", test_f());
 	printf("Interrupts status: %d\n", are_interrupts_enabled());
 	printf("Booted from: %s\n", mboot_header->boot_loader_name); 
+	printf("Modules cnt: %d\n", mboot_header->mods_count);
 
+	assert(0);
+
+	/*
 	uint32_t *ptr = (uint32_t*)0xFFFFFFFF; 
 	uint32_t tmp = *ptr;
 	printf("value: %d\n", tmp);
+	*/
 
 	 for(;;) {
     		asm("hlt");
