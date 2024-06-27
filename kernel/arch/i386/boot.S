@@ -27,7 +27,9 @@ _start:
 	movl $stack_top, %esp
 
 	# Call the global constructors.
-	call _init
+	# call _init
+
+	push %ebx # multiboot header
 
 	# Transfer control to the main kernel.
 	call kernel_main

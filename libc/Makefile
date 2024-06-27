@@ -33,6 +33,7 @@ stdio/printf.o \
 stdio/putchar.o \
 stdio/puts.o \
 stdlib/abort.o \
+assert/assert.o \
 string/memcmp.o \
 string/memcpy.o \
 string/strcpy.o \

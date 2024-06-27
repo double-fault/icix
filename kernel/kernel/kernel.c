@@ -6,6 +6,7 @@
 #include <kernel/pic.h>
 #include <kernel/utilities.h>
 #include <kernel/vmm.h>
+#include <kernel/multiboot.h>
 
 extern int test_f();
 
@@ -40,22 +41,30 @@ void init_timer(uint32_t frequency)
    outb(0x40, h);
 }
 
-void kernel_main(void) {
+void kernel_main(multiboot_header_t *mboot_header) {
 	/* jugaad */
 	pre_init_idt();
 
+	printf("Terminal init.. ");
 	terminal_initialize();
+	printf("OK\nGDT init.. ");
 	init_gdt();
+	printf("OK\nIDT init.. ");
 	init_idt();
+	printf("OK\nPaging init.. ");
 	init_paging();
+	printf("OK\nPIC remap.. ");
 	PIC_remap(0x20, 0x28);
 	PIC_disable();
+	printf("OK\nPIT init.. ");
 	init_timer(50);
 	IRQ_clear_mask(0);
-	printf("Hello, kernel World! %d\n", test_f());
+	printf("OK\n");
+	printf("Hello, world! %d\n", test_f());
 	printf("Interrupts status: %d\n", are_interrupts_enabled());
+	printf("Booted from: %s\n", mboot_header->boot_loader_name); 
 
-	uint32_t *ptr = (uint32_t*)0xA0000000; 
+	uint32_t *ptr = (uint32_t*)0xFFFFFFFF; 
 	uint32_t tmp = *ptr;
 	printf("value: %d\n", tmp);
 
