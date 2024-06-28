@@ -3,6 +3,9 @@
 
 /* Shitty assert */
 void assert(int abrt) {
-	if (!abrt) abort();
+	if (!abrt) {
+		printf("Assert fail!\n");
+		abort();
+	}
 }
 

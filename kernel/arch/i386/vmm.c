@@ -2,6 +2,7 @@
 #include <kernel/isr.h>
 
 #include <stddef.h>
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
@@ -50,9 +51,8 @@ static uint32_t first_frame()
    	uint32_t i, j;
    	for (i = 0; i < INDEX_FROM_BIT(nframes); i++)
    	{
-       		if (frames[i] != 0xFFFFFFFF) // nothing free, exit early.
+       		if (frames[i] != 0xFFFFFFFF) 
        		{
-           		// at least one bit is free here.
            		for (j = 0; j < 32; j++)
            		{
                			uint32_t toTest = 0x1 << j;
@@ -66,8 +66,8 @@ static uint32_t first_frame()
 	return (uint32_t)-1;
 }
 
-static void pfa_alloc(page_t *page, uint32_t is_kernel, uint32_t is_writeable) {
-       if (page->frame != 0) return;
+void pfa_alloc(page_t *page, uint32_t is_kernel, uint32_t is_writeable) {
+       if (page->present == 1) return;
 
 	uint32_t idx = first_frame();
 	if (idx == (uint32_t)-1) abort();
@@ -79,11 +79,11 @@ static void pfa_alloc(page_t *page, uint32_t is_kernel, uint32_t is_writeable) {
 	page->frame = idx;
 }
 
-static void pfa_free(page_t *page) {
+void pfa_free(page_t *page) {
 	uint32_t frame = page->frame;
-	if (frame) {
+	if (page->present) {
 		clear_frame(frame);
-		page->frame = 0;
+		page->present = 0;
 	}
 }
 
@@ -99,7 +99,8 @@ void init_paging() {
 
 	// identity mapping kernel region
 	for (uint32_t i = 0; i < free_addr; i += 0x1000) {
-		pfa_alloc(get_page(i, 1, kernel_dir), 0, 0);
+		page_t *page = get_page(i, 1, kernel_dir);
+		pfa_alloc(page, 0, 0);
 	}
 
 	register_int_handler(14, &page_fault);

@@ -7,4 +7,5 @@ TODO:
  - in irq handler (pic) Im not changing the data segment register to kernel mode (0x10), is that an issue? Im assuming paging will anyway deal with required protection
  - proper exception handlers
  - in IDT we are not setting proper ring levels for interrupts (mainly 0x20 onwards ig)
+ - very weird bug: in printf trying to print 4096 (%d) only prints 40, not reproduced with other numbers yet..
 

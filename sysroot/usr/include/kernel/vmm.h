@@ -36,6 +36,10 @@ void init_paging();
 void switch_page_dir(page_dir_t *dir);
 page_t *get_page(uint32_t addr, uint32_t make, page_dir_t *dir);
 
+// page frame allocator funcns
+void pfa_alloc(page_t *page, uint32_t is_kernel, uint32_t is_writeable);
+void pfa_free(page_t *page);
+
 void page_fault(cpu_state_t state);
 
 #endif // _KERNEL_VMM_H

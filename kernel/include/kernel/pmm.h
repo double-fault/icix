@@ -5,6 +5,7 @@
 #include <stdint.h>
 
 uint32_t kmalloc(size_t size, uint32_t *physical, int align);
+uint32_t malloc(size_t size);
 
 #endif // _KERNEL_PMM_H
 
